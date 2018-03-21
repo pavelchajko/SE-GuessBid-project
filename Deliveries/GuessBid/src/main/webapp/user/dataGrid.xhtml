@@ -1,0 +1,63 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <style>
+        .daysFont{
+            font-size: 13px;
+            color:blueviolet;
+        }
+    </style>
+    <h:form id="form">
+        <p:growl id="growl" showDetail="true" life="6000" autoUpdate="true"/>  
+        <p:dataGrid var="auction" value="#{coreManager.auctions}" columns="4"
+                    rows="12"  paginator="true" id="auctions"
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="6,12,16">
+
+            <f:facet name="header">
+                Auctions
+            </f:facet>
+
+            <p:panel header="#{auction.auctionId}" style="text-align:center">
+                <h:panelGrid columns="1" style="width:100%">
+
+                    <h:outputText value="" />
+                    <h:commandLink value="#{auction.auctionTitle}" action="#{coreManager.goToAuctionHistory(auction)}" />
+                    <h:outputText styleClass="daysFont" value="#{bidController.getDateStatus(auction)}" />
+                    <p:commandLink style="font-size:10px" value="click for details" styleClass="daysFont" update=":form:auctionDetails" oncomplete="PF('auctionDialog').show()" title="View Detail">
+                        <f:setPropertyActionListener value="#{auction}" target="#{coreManager.selectedAuction}" />
+                    </p:commandLink>
+
+                </h:panelGrid>
+            </p:panel>
+
+        </p:dataGrid>
+
+        <p:dialog header="Auction Info" widgetVar="auctionDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="auctionDetails" style="text-align:center;">
+                <p:panelGrid  columns="2" rendered="#{not empty coreManager.selectedAuction}" columnClasses="label,value">
+
+                    <h:outputText value="Seller:" />
+                    <h:outputText value="#{coreManager.selectedAuction.userAuctionEmail.userName}" />
+                    
+                    <h:outputText value="Title:" />
+                    <h:outputText value="#{coreManager.selectedAuction.auctionTitle}" />
+                    
+                    <h:outputText value="Description" />
+                    <h:outputText value="#{coreManager.selectedAuction.auctionDesc}" />
+
+                    <h:outputText value="EndTime" />
+                    <h:outputText value="#{bidController.getDateStatus(coreManager.selectedAuction)}" />
+
+                    
+
+                    <p:commandButton value="Go to Auction" id="gotoauction" action="#{coreManager.goToAuction()}"/>
+
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+</ui:composition>

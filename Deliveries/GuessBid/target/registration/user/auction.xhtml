@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>USER PAGE</title>
+    </h:head>
+    <h:body>
+        <ui:include src="/user/menuBar.xhtml" />
+        <style>
+            .panelGridCenter {
+                margin: 0 auto;
+                width:45%;
+                
+            }
+            .label{
+                width:40%;
+            }
+            .value{
+                width:60%;
+            }
+        </style>
+        <h:form>   
+            <p:growl id="growl" showDetail="true" life="6000" />  
+            <p:panelGrid styleClass="panelGridCenter"  columns="2" rendered="#{not empty coreManager.selectedAuction}" columnClasses="label,value">
+            
+                <h:outputText value="Current bid position:" />
+                <h:outputText value="#{coreManager.getCurrentPosition(userBean.email)}"/>
+
+                <h:outputText value="Seller:" />
+                <h:outputText value="#{coreManager.selectedAuction.userAuctionEmail.userName}" />
+
+                <h:outputText value="Product Name:" />
+                <h:outputText value="#{coreManager.selectedAuction.auctionProduct.productName}" />
+                
+                <h:outputText value="Product category:" />
+                <h:outputText value="#{coreManager.getProductCategory(coreManager.selectedAuction.auctionProduct.productCategory)}" />
+                
+                <h:outputText value="Description" />
+                <h:outputText value="#{coreManager.selectedAuction.auctionDesc}" />
+
+                <h:outputText value="EndTime" />
+                <h:outputText value="#{bidController.getDateStatus(coreManager.selectedAuction)}" />
+
+
+                <h:outputText value="Bid Amount:" rendered="#{coreManager.auctionEnded == false}"/>
+                <h:inputText style="width:70px" binding="#{bid}" rendered="#{coreManager.auctionEnded == false}"/>
+
+                <h:outputText value="" />               
+                <p:commandButton style="width:77px;" rendered="#{coreManager.auctionEnded == false}" value="Bid" id="updateBid" action="#{coreManager.updateBid(bid.value ,coreManager.selectedAuction, userBean.user)}" />
+
+                <h:outputText value="This auction has ended" rendered="#{coreManager.auctionEnded == true}"/>
+
+
+
+            </p:panelGrid>
+        </h:form>
+        
+        <ui:include src="/user/chat.xhtml" />
+    </h:body>
+</html>
+

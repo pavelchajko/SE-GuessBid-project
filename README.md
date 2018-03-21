@@ -1,0 +1,2 @@
+# SE-GuessBid-project
+GuessBid is an application implementing an inverse auction system. An inverse auction works like a regular auction. The difference is that in an inverse auction a user has to propose the lowest unique bid to win the auction. Each user has to guess the lowest bid. Bids can be placed till the bidding closing time. Then they are evaluated by the system. The winner is the user who has placed the lowest unique bid.

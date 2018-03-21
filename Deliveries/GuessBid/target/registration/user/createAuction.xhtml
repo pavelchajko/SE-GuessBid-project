@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create new auction</title>
+    </h:head>
+    <h:body>
+        <style>
+            .labelClass {
+                display:block;
+                width:135px;
+            }
+        </style>
+        <ui:include src="/user/menuBar.xhtml" />
+
+        <h:form id="creatingNewAuction">
+            <p:growl id="growl" showDetail="true" life="6000" autoUpdate="true"/>  
+            <p:panel header="Create New Auction" style="width:75%">
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="2" style="width:70%">           
+                        <p:outputLabel value="Select a product" class="labelClass"/> 
+                        <p:selectOneListbox value="#{auctionController.selectedProductID}" style="width:200px;">
+                            <f:selectItems value="#{auctionController.products}" var="item" itemValue="#{item.productId}" itemLabel="#{item.productName}" />
+                        </p:selectOneListbox> 
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        <p:commandLink value="Add new product" update="displayProductDialog" oncomplete="PF('productDialog').show()" ajax="true" style="margin-top:5px" />  
+
+
+                        <h:outputLabel for="auctionTitle" value="Auction title:"/>
+                        <p:inputText id="auctionTitle" value="#{auctionController.selectedAuction.auctionTitle}" style="width:330px;"/>
+
+                        <h:outputLabel for="auctionDesc">Description:</h:outputLabel>
+                        <p:inputTextarea id="auctionDesc"  value="#{auctionController.selectedAuction.auctionDesc}" rows='6' cols='35'  />
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" style="float:right;width:30%">
+                        <p:outputLabel for="calendar" value="Select the ending date:" /> 
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        <p:calendar id="calendar" value="#{auctionController.endDate}" mode="inline"/>                
+
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        
+                    </h:panelGrid>
+                </h:panelGrid>
+                
+                <p:commandButton id="submit" value="Save auction" action="#{auctionController.saveAuctionToDB()}" ajax="true" />
+               
+                <p:dialog id="displayProductDialog" modal="true" showEffect="fade" hideEffect="fade" widgetVar="productDialog" header="Add new product:" width="500">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="selectProduct">Select the category:</h:outputLabel>
+                        <p:selectOneListbox value="#{auctionController.selectedCategory}" style="width:200px;" id="selectProduct">
+                            <f:selectItems value="#{auctionController.categories}" var="item" itemValue="#{item}" itemLabel="#{item}" />
+                        </p:selectOneListbox>  
+
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+
+                        <h:outputLabel for="productName" value="Enter the product name:"/>
+                        <p:inputText id="productName" value="#{auctionController.selectedProductName}"/>
+
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        <p:commandButton value="Create the product" action="#{auctionController.saveProductToDB()}"  style="margin-top:5px" />  
+                    </h:panelGrid>
+                </p:dialog>
+
+            </p:panel>
+        </h:form>
+
+    </h:body>
+</html>

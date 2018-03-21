@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>History of bids</title>
+    </h:head>
+    <h:body>
+        <ui:include src="/user/menuBar.xhtml" />
+
+        <h:form>   
+            <p:growl id="growl" showDetail="true" life="6000" autoUpdate="true"/>  
+            
+
+                <p:dataTable var="myBid" value="#{bidController.myBids}">
+                    
+                    <p:column headerText="Auction Title">
+                        <p:commandLink value="#{myBid.auction.auctionTitle}" action="#{coreManager.goToAuctionHistory(myBid.auction)}" />  
+
+                    </p:column>
+
+                    <p:column headerText="Product Name">
+                        <h:outputText value="#{myBid.auction.auctionProduct.productName}" />
+                    </p:column>
+
+                    <p:column headerText="Entered bid">
+                        <h:outputText value="#{myBid.userbidBid}" />
+                    </p:column>
+                    
+                    <p:column headerText="End Date">
+                        <h:outputText value="#{bidController.getDateStatus(myBid.auction)}" />
+                    </p:column>
+
+                    <p:column headerText="Status">
+                        <h:outputText value="#{bidController.getStatus(myBid)}" />
+                    </p:column>
+                </p:dataTable>
+      
+        </h:form>
+    </h:body>
+</html>
+

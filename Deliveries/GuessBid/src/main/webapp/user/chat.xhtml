@@ -1,0 +1,91 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <script type="text/javascript" src="../user/updateScript.js" />
+
+    <style>
+        .inputText {
+            width:825px;
+            float:left;
+        }
+
+        #chat{
+            word-wrap: break-word;  
+            overflow-y: auto;
+            height: 250px;
+            max-width: 875px;
+        }
+
+        #onlineUsers{
+            overflow-y: auto;
+            height: 300px;
+            width:80%;
+        }
+        .chatGrid {
+            display:none;
+        }
+        .chat{
+            margin-top: 20px;
+            float:left;
+            background-color:silver;
+            width: 85%;
+
+        }
+        .onlineusers{
+            float:left;
+            width:200px;
+        }
+        #logoutLink{
+            display:none;
+        }
+    </style>
+
+    <h:form prependId="false">
+        <p:remoteCommand name="nextChatUpdate" actionListener="#{messageBean.firstUnreadMessage(coreManager.selectedAuction)}"
+                         oncomplete="newChatUpdate(xhr, status, args);"/>
+        <p:remoteCommand name="nextUserUpdate" actionListener="#{onlineUsers.getOnlineUsersWeb(coreManager.selectedAuction)}"
+                         oncomplete="newUserUpdate(xhr, status, args);"/>
+    </h:form>
+
+    <h:form>
+
+        <div id="loginLink">
+            <p:commandLink onclick="logInChat();" value="Log into chat" actionListener="#{onlineUsers.logInChat(coreManager.selectedAuction, userBean.user)}"/>
+
+        </div>
+
+        <div id="logoutLink">
+            <p:commandLink onclick="logOutChat();" value="Log out of chat" actionListener="#{onlineUsers.logOutChat(coreManager.selectedAuction, userBean.user)}"/>
+        </div>
+        <h:panelGrid styleClass="chatGrid" columns="2">
+
+            <h:panelGrid id="ChatPanel" styleClass="chat" >
+                <p:panel>
+                    <div id="chat">
+                    </div>
+                </p:panel>
+
+                <h:panelGrid columns="2">
+                    <p:inputText styleClass="inputText" value="#{messageBean.message.message}"/>
+                    <p:commandButton value="Send!" actionListener="#{messageBean.sendMessage(coreManager.selectedAuction, userBean.user)}"/>
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+            <h:panelGrid styleClass="onlineusers">
+                <p:outputLabel value="Online users:"/>
+                <p:panel>
+                    <div id="onlineUsers">
+                    </div>
+                </p:panel>
+
+            </h:panelGrid>
+        </h:panelGrid>
+
+    </h:form>
+
+</ui:composition>

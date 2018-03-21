@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>My Auctions</title>
+    </h:head>
+    <h:body>
+        <ui:include src="/user/menuBar.xhtml" />
+
+        <h:form id="form">
+            <p:growl id="growl" showDetail="true" life="6000" autoUpdate="true"/>  
+
+            <p:dataTable var="auction" value="#{coreManager.getmyAuctions(userBean.email)}">
+                <p:column headerText="Auction Title">
+                    <p:commandLink value="#{auction.auctionTitle}" action="#{coreManager.goToAuctionHistory(auction)}" />  
+
+                </p:column>
+
+                <p:column headerText="Product Name">
+                    <h:outputText value="#{auction.auctionProduct.productName}" />
+                </p:column>
+
+                <p:column headerText="End Date">
+                    <h:outputText value="#{bidController.getDateStatus(auction)}" />
+                </p:column>
+                
+                <p:column headerText="auctionID">
+                    <h:outputText value="#{auction.auctionId}" />
+                </p:column>
+                
+                <p:column headerText="Status">
+                    <h:outputText value="#{bidController.getMyAuctionStatus(auction)}" />
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton style="margin-top:10px" value="Create new Auction" id="gotoauction" action="#{coreManager.goToCreateAuction()}"/>
+        </h:form>    
+    </h:body>
+</html>

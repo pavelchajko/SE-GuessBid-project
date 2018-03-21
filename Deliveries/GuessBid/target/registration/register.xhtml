@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registration</title>
+    </h:head>
+    <h:body>
+        <style>
+            .panelGridCenter {
+                margin: 0 auto;
+                width:35%;
+                margin-top: 130px;
+            }
+        </style>
+        <h:form id="registrationform">
+            <p:growl id="growl" showDetail="true" life="6000" autoUpdate="true"/>  
+            <p:panel  header="Registration Form" styleClass="panelGridCenter">
+                <h:panelGrid columns="2" id="regGrid" >
+                    <h:outputLabel for="name">Name:</h:outputLabel>
+                    <p:inputText requiredMessage="Enter the name" required="true" id="name" value="#{registrationBean.user.userName}">
+                        <p:ajax update="namemsg"/>
+                    </p:inputText>
+                    <h:outputText value="&lt;br/&gt;" escape="false" />
+                    <p:message id="namemsg" for="name" />
+
+                    <h:outputLabel for="email">Email:</h:outputLabel>
+                    <p:inputText id="email" value="#{registrationBean.user.userEmail}" >
+                        <p:ajax update="emailmsg"/>
+                    </p:inputText>
+                    <h:outputText value="&lt;br/&gt;" escape="false" />
+                    <p:message id="emailmsg" for="email" />
+
+                    <h:outputLabel for="password">Password:</h:outputLabel>
+                    <p:password id="password" value="#{registrationBean.user.userPassword}"
+                                feedback="true" match="pwd2" label="Password"/>
+                    <h:outputText value="&lt;br/&gt;" escape="false" />
+                    <p:message for="password" />
+
+                    <h:outputLabel for="pwd2">Confirm Password:</h:outputLabel>
+                    <p:password id="pwd2" label="Confirm Password"/>
+                    
+                    <h:outputText value="&lt;br/&gt;" escape="false" />
+                    <p:commandButton id="submit" value="Register" update="regGrid" action="#{registrationBean.register()}" />    
+                </h:panelGrid>
+
+
+
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
